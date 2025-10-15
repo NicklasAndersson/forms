@@ -36,7 +36,10 @@ const server = app.listen(3000);
 const run = () => {
     (async () => {
         console.log("/export/pdf");
-        const browser = await puppeteer.launch({headless: true});
+        const browser = await puppeteer.launch({
+            headless: true, 
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         const page = await browser.newPage();
         await page.goto('http://localhost:3000/export/html/', {waitUntil: "load"});
         console.log("pageload");
