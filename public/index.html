@@ -1,40 +1,225 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Avståndsgissning</title>
-        <link rel="stylesheet" href="paper.css">
-        <script type="text/javascript" src="draw.js"></script>
-        <link rel="stylesheet" href="style.css"> 
-    </head>
-    <body class="A4">
-        <section class="sheet padding-10mm">
-            <div class="card">
-                <p class="top-text">Snöre: 60cm | Avstånd: 100, 200, 300, 400, 500, 600m</p>
-                <div class="ruler">
-                    <div class="cm"></div>
-                    <div class="cm"></div>
-                    <div class="cm"></div>
-                    <div class="cm"></div>
-                    <div class="cm last-cm"></div>
-                </div>
-
-                <div class="subcard" id="soldier">
-                    <p>Soldat (h=1.8m b=0.5m)</p>
-                </div>
-
-                <div class="subcard" id="imf">
-                    <p>Container kortsida ISO HC
-                        (h=2.9m b=2.44m)</p>
-                </div>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utskriftsmall: Protokoll för Skyddsvakt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Tinos:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Classic Document -->
+    <!-- Application Structure Plan: Sidan har omstrukturerats från en interaktiv "wizard" till en statisk, ensidig utskriftsmall. All information presenteras vertikalt i en enda kolumn för att efterlikna ett traditionellt A4-dokument. Den interaktiva sidonavigeringen och den stegvisa visningen har tagits bort för att maximera läsbarhet och utskriftsvänlighet. Strukturen är nu helt linjär, vilket gör det enkelt att följa och fylla i protokollet från början till slut. Målet är att skapa en professionell och funktionell mall för dokumentation. -->
+    <!-- Visualization & Content Choices: Eftersom detta är en mall för utskrift har alla interaktiva formulärelement (input-fält, textområden, dynamiska tabeller) ersatts med visuella representationer som lämpar sig för ifyllnad för hand eller i en PDF-redigerare. Mål: Tydlig och ren layout för utskrift. Metod: HTML-element stylade med Tailwind CSS för att skapa linjer för text, kryssrutor och definierade fält. Interaktion: Den enda kvarvarande interaktionen är "Skriv ut"-knappen. All villkorlig logik (som att visa/dölja fängselsektionen) har tagits bort; alla sektioner är nu alltid synliga för att mallen ska vara komplett oavsett händelse. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb; /* Gray-200 */
+        }
+        .page-container {
+            font-family: 'Tinos', serif;
+            max-width: 8.5in;
+            min-height: 11in;
+            margin: 2rem auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .fill-line {
+            border-bottom: 1px solid #4b5563; /* Gray-600 */
+            flex-grow: 1;
+            margin-left: 0.5rem;
+        }
+        .checkbox {
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid #1f2937; /* Gray-800 */
+            display: inline-block;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #111827; /* Gray-900 */
+            border-bottom: 2px solid #111827;
+            padding-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        label, .field-label {
+            color: #374151; /* Gray-700 */
+            font-weight: 500;
+        }
         
-                <div class="subcard" id="doorFrame">
-                    <p>Dörr (h=2m b=1m)</p>
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .page-container {
+                margin: 0;
+                box-shadow: none;
+                max-width: 100%;
+                min-height: 0;
+            }
+            #action-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container bg-white p-8">
+        <header class="text-center mb-6">
+            <h1 class="text-xl font-bold text-gray-800 tracking-wider">PROTOKOLL: INGRIPANDE AV SKYDDSSVAKT</h1>
+        </header>
+
+        <main>
+            <div class="grid grid-cols-2 gap-x-8">
+                <!-- Vänster kolumn -->
+                <div class="flex flex-col space-y-3">
+                    <!-- Section 1: Grundinformation -->
+                    <section id="section-1">
+                        <h2 class="section-title">1. Grundinformation</h2>
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-baseline"><span class="field-label w-48">Datum för händelse:</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-48">Tid för händelse (start):</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-48">Plats / Skyddsobjekt:</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-48">Protokoll upprättat av:</span><div class="fill-line"></div></div>
+                        </div>
+                    </section>
+
+                    <!-- Section 2: Person -->
+                    <section id="section-2">
+                        <h2 class="section-title">2. Person som ingripandet riktades mot</h2>
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-baseline"><span class="field-label w-32">Efternamn:</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-32">Förnamn:</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-32">Personnummer:</span><div class="fill-line"></div></div>
+                            <div class="mt-1">
+                                <span class="field-label">Signalement (om identitet är okänd):</span>
+                                <div class="mt-1 h-16 border border-gray-400 rounded p-1"></div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Section 3: Händelseförlopp -->
+                    <section id="section-3">
+                        <h2 class="section-title">3. Händelseförlopp</h2>
+                        <div class="mt-1 h-48 border border-gray-400 rounded p-1"></div>
+                    </section>
+                    
+                     <!-- Section 4: Vittnen -->
+                    <section id="section-4">
+                        <h2 class="section-title">4. Vittnen och övriga inblandade</h2>
+                        <table class="min-w-full border border-gray-400 text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="py-1 px-2 text-left font-semibold text-gray-700 border-b border-gray-400">Namn</th>
+                                    <th class="py-1 px-2 text-left font-semibold text-gray-700 border-b border-gray-400">Kontakt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-2 h-7 border-b border-gray-300"></td><td class="p-2 h-7 border-b border-gray-300"></td></tr>
+                                <tr><td class="p-2 h-7"></td><td class="p-2 h-7"></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
 
-                <div class="subcard" id="v70">
-                    <p>Volvo V70 (h=1.44m b=4.72m)</p>
+                <!-- Höger kolumn -->
+                <div class="flex flex-col space-y-3">
+                    <!-- Section 5: Åtgärder -->
+                    <section id="section-5">
+                        <h2 class="section-title">5. Vidtagna åtgärder</h2>
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-center"><div class="checkbox"></div><span>Avvisad (Skyddslagen 12 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Avlägsnad (Skyddslagen 12 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Omhändertagen (Skyddslagen 12 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Gripen (Skyddslagen 13 §, RB 24 kap. 7 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Kroppsvisitation (Skyddslagen 11 §, PL 19 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Beslag av föremål (Skyddslagen 14 §)</span></div>
+                            <div class="flex items-center"><div class="checkbox"></div><span>Belagd med fängsel (Polislagen 10a §)</span></div>
+                        </div>
+                    </section>
+
+                    <!-- Section 6: Fängsel -->
+                    <section id="section-6">
+                        <h2 class="section-title">6. Specifikation: Fängselbeläggning</h2>
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-baseline"><span class="field-label w-48">Handfängsel påsatta (tid):</span><div class="fill-line"></div></div>
+                            <div class="flex items-baseline"><span class="field-label w-48">Handfängsel avtagna (tid):</span><div class="fill-line"></div></div>
+                            <div class="mt-1">
+                                <span class="field-label">Anledning till fängselbeläggning:</span>
+                                <div class="mt-1 space-y-1 pl-4">
+                                    <div class="flex items-center"><div class="checkbox"></div><span>Våldsamt uppträdande</span></div>
+                                    <div class="flex items-center"><div class="checkbox"></div><span>Hot om våld</span></div>
+                                    <div class="flex items-center"><div class="checkbox"></div><span>Flyktfara</span></div>
+                                    <div class="flex items-center"><div class="checkbox"></div><span>Fara för den frihetsberövades liv/hälsa</span></div>
+                                    <div class="flex items-center"><div class="checkbox"></div><span>Fara för annans liv/hälsa</span></div>
+                                </div>
+                            </div>
+                            <div class="mt-1">
+                                <span class="field-label">Omständigheter vid fängselbeläggningen:</span>
+                                <div class="mt-1 h-12 border border-gray-400 rounded p-1"></div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Section 7: Beslag -->
+                    <section id="section-7">
+                        <h2 class="section-title">7. Beslagsprotokoll</h2>
+                        <table class="min-w-full border border-gray-400 text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="py-1 px-2 text-left font-semibold text-gray-700 border-b border-gray-400">Föremål (Beskrivning)</th>
+                                    <th class="py-1 px-2 text-left font-semibold text-gray-700 border-b border-gray-400 w-16">Antal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-2 h-6 border-b border-gray-300"></td><td class="p-2 h-6 border-b border-gray-300"></td></tr>
+                                <tr><td class="p-2 h-6"></td><td class="p-2 h-6"></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Section 8: Överlämnande -->
+                    <section id="section-8">
+                        <h2 class="section-title">8. Överlämnande till Polis</h2>
+                        <div class="space-y-1.5 text-sm">
+                            <div class="flex items-center"><div class="checkbox"></div><span>Överlämnad till polis</span></div>
+                            <div class="pl-8 space-y-1.5">
+                                <div class="flex items-baseline"><span class="field-label w-52 shrink-0">Datum och tid för överlämnande:</span><div class="fill-line"></div></div>
+                                <div class="flex items-baseline"><span class="field-label w-52 shrink-0">Mottagande polis/tjänsteman:</span><div class="fill-line"></div></div>
+                                <div class="flex items-baseline"><span class="field-label w-52 shrink-0">Plats för överlämnande:</span><div class="fill-line"></div></div>
+                            </div>
+                            <div class="flex items-center pt-1"><div class="checkbox"></div><span>Ej överlämnad till polis</span></div>
+                            <div class="pl-8 flex items-baseline"><span class="field-label w-24">Anledning:</span><div class="fill-line"></div></div>
+                        </div>
+                    </section>
                 </div>
             </div>
-        </section>
-    </body>
+            
+            <!-- Section 9: Underskrift (Full Width) -->
+            <section id="section-9" class="mt-6">
+                <div class="grid grid-cols-2 gap-12 text-sm mt-4">
+                    <div class="flex items-baseline border-t border-gray-600 pt-2"><span class="field-label">Ort och datum</span></div>
+                    <div class="flex items-baseline border-t border-gray-600 pt-2"><span class="field-label">Underskrift och namnförtydligande</span></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="action-buttons" class="text-center my-8">
+        <button type="button" id="print-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+            Skriv ut protokoll
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('print-btn').addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
 </html>
+
